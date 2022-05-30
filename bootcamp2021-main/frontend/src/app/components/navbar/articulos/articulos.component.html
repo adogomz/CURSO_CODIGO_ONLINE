@@ -1,0 +1,86 @@
+<div class="row mb-2" *ngIf="isAdmin()">
+  <div class="d-grid d-md-flex justify-content-md-end">
+    <button class="btn btn-outline-primary" type="button" (click)="openDialog()">Añadir Producto</button>
+    <!--<button class="btn btn-outline-primary" type="button" [routerLink]="['./formulario']">Añadir Producto</button>-->
+    <!--<button class="btn btn-outline-primary" type="button" [routerLink]="['/articulos/formulario']">Añadir Producto</button>-->
+  </div>
+</div>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 row-cols-xl-5" [@ngForAnimation]="articulos.length">
+  <div class="col mb-2" *ngFor="let articulo of articulos">
+    <div class="card h-100">
+      <img src="{{backend}}{{articulo.foto}}" class="card-img-top" alt="img de prueba">
+      <div class="card-body">
+        <h5 class="card-title">{{ articulo.nombre }}</h5>
+        <!--<ul>
+          <li>{{hoy}}</li>
+          <li>{{hoy | date:'short'}}</li>
+          <li>{{hoy | date:'medium' | uppercase}}
+          <li>{{hoy | date:'long'}}
+          <li>{{hoy | date:'full'}}
+          <li>{{hoy | date:'shortDate'}}
+          <li>{{hoy | date:'mediumDate'}}
+          <li>{{hoy | date:'longDate'}}
+          <li>{{hoy | date:'fullDate'}}
+          <li>{{hoy | date:'shortTime'}}
+          <li>{{hoy | date:'mediumTime'}}
+          <li>{{hoy | date:'longTime'}}
+          <li>{{hoy | date:'fullTime'}}
+        </ul>-->
+        <h6 class="card-subtitle mb-2 text-muted">{{articulo.precio}}€</h6>
+        <p class="card-text" matTooltip="{{articulo.descripcion}}">{{(articulo.descripcion | truncate).value}}</p>
+      </div>
+      <div class="card-footer">
+        <div class="row text-center">
+          <div class="col-3">
+            <a class="card-link" *ngIf="articulo.stock>0"
+               matTooltip="Añadir al carrito" (click)="addToCart(articulo)"
+            >
+              <fa-icon [icon]="faCartPlus"></fa-icon>
+            </a>
+          </div>
+          <div class="col-3">
+            <a class="card-link"
+               matTooltip="Ver más..." (click)="abrirDetalles(articulo)"
+            >
+              <fa-icon [icon]="faInfoCircle"></fa-icon>
+            </a>
+          </div>
+          <div class="col-3">
+            <a class="card-link" (click)="openSheet(articulo)"
+               matTooltip="Compartir"
+            >
+              <fa-icon [icon]="faShareSquare"></fa-icon>
+            </a>
+          </div>
+          <div class="col-3">
+            <a class="card-link"
+               href="https://wa.me/34634523657?text=Quiero información del artículo {{articulo.nombre}}"
+               matTooltip="Solicitar información"
+            >
+              <fa-icon [icon]="faCommentDots"></fa-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer" *ngIf="isAdmin()">
+        <div class="row">
+          <div class="col-6">
+            <div class="d-grid">
+              <button class="btn btn-outline-success" (click)="openDialog(articulo)">
+                <fa-icon [icon]="editar"></fa-icon>
+              </button>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-grid">
+              <button class="btn btn-outline-danger" (click)="remove(articulo.id!)">
+                <fa-icon [icon]="faTrash"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
